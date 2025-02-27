@@ -1,0 +1,16 @@
+{
+    "name": "@workspace/wallet",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc"
+    },
+    "exports": {},
+    "devDependencies": {
+        "@workspace/typescript-config": "workspace:*",
+        "@workspace/wallet-storage": "workspace:*",
+        "typescript": "latest"
+    }
+}
