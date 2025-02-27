@@ -14,9 +14,10 @@ export interface WalletConfig {
 
 export interface IWallet {
     init(): Promise<void>;
-    createWallet(): Promise<WalletKeys>;
-    importWallet(privateKey: string): Promise<WalletKeys>;
+    createWallet(chain: BlockchainType): Promise<WalletKeys>;
+    importWallet(privateKey: string): Promise<WalletKeys>; // require mnemonic?
     signMessage(message: string): Promise<string>;
-    signTransaction(transactionData: any): Promise<string>;
+    signTransaction(transactionData: any): Promise<any>;
+    sendTransaction(rawTransaction: any): Promise<any>;
     exportWallet(): Promise<WalletKeys>;
 }
