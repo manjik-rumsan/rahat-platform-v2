@@ -1,9 +1,9 @@
 
 export interface WalletStorage {
-    init(walletId: string): Promise<void>;
-    getKeys(): Promise<WalletKeys | null>;
-    saveKeys(keys: WalletKeys): Promise<void>;
-    deleteWallet(): Promise<void>;
+    init(): Promise<void>; //initialize the storage connection
+    saveKey(key: WalletKeys): Promise<void>;
+    getKey(address: string): Promise<WalletKeys | null>;
+    deleteWallet?(address: string): Promise<void>; // rethink?
 }
 
 
