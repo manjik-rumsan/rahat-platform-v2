@@ -1,4 +1,4 @@
-import { WalletKeys, WalletStorage } from '@workspace/wallet-storage';
+import { WalletKeys, WalletStorage } from '@workspace/wallet';
 import { Database, open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 
