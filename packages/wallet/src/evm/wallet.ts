@@ -16,6 +16,9 @@ class EVMWallet implements IWallet {
         this.storage = storage
         this.provider = new ethers.JsonRpcProvider(rpcUrl);
     }
+    currentWallet() {
+        return this.currentWalletKeys?.address || 'wallet not initialized';
+    }
 
     async init() {
         await this.storage.init();
@@ -65,6 +68,7 @@ class EVMWallet implements IWallet {
         return wallet.signMessage(message);
     }
 
+    //TODO define transaction type
     async signTransaction(transactionData: any): Promise<any> {
         if (!this.currentWalletKeys || !this.provider) {
             throw new Error("No current account or provider set for signing transaction");

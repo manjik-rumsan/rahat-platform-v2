@@ -22,7 +22,7 @@ export interface WalletStorage {
 // Is Mnemonic Required?
 export interface WalletKeys {
     privateKey: string;
-    publicKey: string;
+    publicKey?: string;
     address: string;
     blockchain: string;
     mnemonic?: string; // Optional - Only if you want to support exports to external wallets and recovery
