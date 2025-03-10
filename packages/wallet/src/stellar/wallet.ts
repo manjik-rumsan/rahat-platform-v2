@@ -2,8 +2,7 @@ import { ethers } from "ethers";
 import { BASE_FEE, Keypair, Networks, TransactionBuilder } from 'stellar-sdk';
 import { IWallet, WalletKeys, WalletStorage } from "../types.js";
 
-
-class StellarWallet implements IWallet {
+export class StellarWallet implements IWallet {
     blockchainType = "STELLAR";
     rpcUrl: string;
     storage: WalletStorage
