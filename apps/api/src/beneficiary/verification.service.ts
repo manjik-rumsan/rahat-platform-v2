@@ -4,15 +4,14 @@ import { InjectQueue } from '@nestjs/bull';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
-// import {
-//   BQUEUE,
-//   BeneficiaryJobs,
-//   ProjectContants,
-//   ValidateWallet,
-//   VerifySignature,
-// } from '@rahataid/sdk';
 import { PrismaService } from '@rumsan/prisma';
-import { BeneficiaryJobs } from '@workspace/sdk';
+import {
+  BeneficiaryJobs,
+  BQUEUE,
+  ProjectContants,
+  ValidateWallet,
+  VerifySignature,
+} from '@workspace/sdk';
 import type { Address } from 'abitype';
 import { Queue } from 'bull';
 import * as crypto from 'crypto'; // Import the crypto module

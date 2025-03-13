@@ -25,3 +25,9 @@ export enum PhoneStatus {
   FEATURE_PHONE = 'FEATURE_PHONE',
   SMART_PHONE = 'SMART_PHONE',
 }
+
+export enum ProjectStatus {
+  NOT_READY = 'NOT_READY',
+  ACTIVE = 'ACTIVE',
+  CLOSED = 'CLOSED',
+}

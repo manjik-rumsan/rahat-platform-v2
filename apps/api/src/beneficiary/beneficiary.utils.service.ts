@@ -4,26 +4,16 @@ import { Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { Beneficiary } from '@prisma/client';
-// import {
-//   AddToProjectDto,
-//   CreateBeneficiaryDto,
-//   ListBeneficiaryDto,
-// } from '@rahataid/extensions';
-// import {
-//   AAPayload,
-//   BeneficiaryConstants,
-//   BeneficiaryEvents,
-//   BeneficiaryJobs,
-//   BeneficiaryPayload,
-//   generateRandomWallet,
-//   MicroserviceOptions,
-//   ProjectContants,
-// } from '@rahataid/sdk';
 import { PaginatorTypes, PrismaService } from '@rumsan/prisma';
 import {
+  AAPayload,
   BeneficiaryConstants,
   BeneficiaryEvents,
   BeneficiaryJobs,
+  BeneficiaryPayload,
+  MicroserviceOptions,
+  ProjectContants,
+  generateRandomWallet,
 } from '@workspace/sdk';
 import { lastValueFrom } from 'rxjs';
 import { isAddress } from 'viem';

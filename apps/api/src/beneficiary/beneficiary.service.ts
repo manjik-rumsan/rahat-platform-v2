@@ -6,19 +6,13 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { Beneficiary } from '@prisma/client';
 
-// import {
-//   BeneficiaryConstants,
-//   BeneficiaryEvents,
-//   BeneficiaryJobs,
-//   BQUEUE,
-//   ProjectContants,
-//   TPIIData,
-// } from '@rahataid/sdk';
 import { paginator, PaginatorTypes, PrismaService } from '@rumsan/prisma';
 import {
   BeneficiaryConstants,
   BeneficiaryEvents,
   BeneficiaryJobs,
+  BQUEUE,
+  ProjectContants,
   TPIIData,
 } from '@workspace/sdk';
 import { Queue } from 'bull';
