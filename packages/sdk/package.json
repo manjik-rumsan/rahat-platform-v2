@@ -15,7 +15,8 @@
     "./constants/*": "./src/constants/*.ts",
     "./dtos/*": "./src/dtos/*.ts",
     "./types/*": "./src/types/*.ts",
-    "./utils/*": "./src/utils/*.ts"
+    "./utils/*": "./src/utils/*.ts",
+    "./beneficiary/*": "./src/beneficiary/*.ts"
   },
   "dependencies": {
     "@rumsan/sdk": "^0.1.152",
