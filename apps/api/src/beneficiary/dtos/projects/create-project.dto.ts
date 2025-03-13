@@ -1,6 +1,6 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { ProjectStatus } from '@rahataid/sdk/enums';
+import { Enums } from '@workspace/sdk';
 import { IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateProjectDto {
@@ -39,21 +39,18 @@ export class CreateProjectDto {
 
   @ApiProperty({
     required: false,
-    example: '0x123'
+    example: '0x123',
   })
   @IsOptional()
   @IsString()
-  contractAddress?: string
+  contractAddress?: string;
 }
 
 export class UpdateProjectDto extends OmitType(PartialType(CreateProjectDto), [
   'type',
-]) {
-
-}
+]) {}
 
 export class UpdateProjectStatusDto {
-
   @ApiProperty({
     type: 'string',
     required: false,
@@ -61,5 +58,5 @@ export class UpdateProjectStatusDto {
   })
   @IsString()
   @IsOptional()
-  status?: ProjectStatus;
+  status?: Enums.ProjectStatus;
 }

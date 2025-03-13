@@ -41,7 +41,6 @@ export class ListBeneficiaryDto {
   @IsOptional()
   type?: string;
 
-
   @ApiPropertyOptional({ example: '2024-06-25T18:15:00.000Z' })
   @IsOptional()
   startDate?: string;
@@ -52,13 +51,12 @@ export class ListBeneficiaryDto {
 }
 
 export class ListProjectBeneficiaryDto {
-
-  @ApiProperty({ example: "ENROLLED" })
+  @ApiProperty({ example: 'ENROLLED' })
   @IsString()
   @IsOptional()
   sort: string;
 
-  @ApiProperty({ example: "ENROLLED" })
+  @ApiProperty({ example: 'ENROLLED' })
   @IsString()
   @IsOptional()
   order: 'asc' | 'desc';
@@ -71,12 +69,12 @@ export class ListProjectBeneficiaryDto {
   @IsNumber()
   perPage: number;
 
-  @ApiProperty({ example: "ENROLLED" })
+  @ApiProperty({ example: 'ENROLLED' })
   @IsString()
   @IsOptional()
   status: string;
 
-  @ApiProperty({ example: "NOT_ASSIGNED" })
+  @ApiProperty({ example: 'NOT_ASSIGNED' })
   @IsString()
   @IsOptional()
   type: string;
@@ -86,7 +84,6 @@ export class ListProjectBeneficiaryDto {
   @IsNotEmpty()
   projectId: string;
 }
-
 
 export class ListTempGroupsDto {
   @ApiProperty({ example: 'desc' })

@@ -31,3 +31,8 @@ export enum ProjectStatus {
   ACTIVE = 'ACTIVE',
   CLOSED = 'CLOSED',
 }
+
+export enum BeneficiaryType {
+  REFERRED = 'REFERRED',
+  ENROLLED = 'ENROLLED',
+}

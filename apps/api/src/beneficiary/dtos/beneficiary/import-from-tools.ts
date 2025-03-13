@@ -1,103 +1,106 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { UUID } from "crypto";
-
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { UUID } from 'crypto';
 
 export class ImportTempBenefDto {
-
   @ApiProperty({
     description: 'Group UUID',
-    example: '19d4dcfd-8ed9-42c4-b282-4820b79d6330'
+    example: '19d4dcfd-8ed9-42c4-b282-4820b79d6330',
   })
   @IsString()
   @IsNotEmpty()
-  groupUUID: UUID
+  groupUUID: UUID;
 }
-
 
 // Create type enum for the type of import
 export enum BeneficiaryType {
-  LEAD = "LEAD",
+  LEAD = 'LEAD',
   HOME_VISIT = 'HOME_VISIT',
   SALE = 'SALE',
 }
 
 export enum GENDER {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
-  OTHER = "OTHER",
-  UNKNOWN = "UNKNOWN"
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER',
+  UNKNOWN = 'UNKNOWN',
 }
 export class TestKoboImportDto {
   @ApiProperty({
     description: 'Beneficiary Type',
-    example: 'LEAD'
+    example: 'LEAD',
   })
   @IsString()
   @IsNotEmpty()
-  type: BeneficiaryType
+  type: BeneficiaryType;
 
   @ApiProperty({
-    example: 'Ram Shrestha'
+    example: 'Ram Shrestha',
   })
   @IsString()
   @IsNotEmpty()
-  name: string
+  name: string;
 
   @ApiProperty({
-    example: 'MALE'
+    example: 'MALE',
   })
   @IsString()
   @IsNotEmpty()
-  gender: GENDER
+  gender: GENDER;
 
   @ApiProperty({
-    example: "9779800000000"
+    example: '9779800000000',
   })
   @IsString()
   @IsOptional()
-  phone?: string
+  phone?: string;
 
   @ApiProperty({
-    example: 20
+    example: 20,
   })
   @IsNumber()
   @IsNotEmpty()
-  age: number
+  age: number;
 
   @ApiProperty({
-    example: "Lumbini"
+    example: 'Lumbini',
   })
   @IsString()
   @IsOptional()
-  province?: string
+  province?: string;
 
   @ApiProperty({
-    example: "Dang"
+    example: 'Dang',
   })
   @IsString()
   @IsOptional()
-  district?: string
+  district?: string;
 
   @ApiProperty({
-    example: "12"
+    example: '12',
   })
   @IsString()
   @IsOptional()
-  wardNo?: string
+  wardNo?: string;
 
   @ApiProperty({
-    example: ['Sun Glasses']
+    example: ['Sun Glasses'],
   })
   @IsArray()
   @IsOptional()
-  leadInterests?: string[]
+  leadInterests?: string[];
 
   @ApiProperty({
     example: {
-      "_submitted_by": "kobo_username",
-    }
+      _submitted_by: 'kobo_username',
+    },
   })
   @IsOptional()
-  meta?: object
+  meta?: object;
 }

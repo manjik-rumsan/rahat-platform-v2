@@ -9,7 +9,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { StatsModule } from '@rahat/stats';
 import { PrismaModule } from '@rumsan/prisma';
 import { BQUEUE, ProjectContants } from '@workspace/sdk';
-import { BeneficiaryConsumer } from '../consumers/beneficiary.consumer';
+import { BeneficiaryConsumer } from 'src/consumers/beneficiary.consumer';
 import { BeneficiaryController } from './beneficiary.controller';
 import { BeneficiaryService } from './beneficiary.service';
 import { BeneficiaryUtilsService } from './beneficiary.utils.service';

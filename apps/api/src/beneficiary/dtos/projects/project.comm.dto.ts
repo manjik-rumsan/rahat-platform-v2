@@ -13,5 +13,5 @@ export class ProjectCommunicationDto {
   @ApiProperty({ example: { event_name: 'redeem.voucher' }, type: 'object' })
   @IsObject()
   @IsOptional()
-  trigger: any
+  trigger: any;
 }

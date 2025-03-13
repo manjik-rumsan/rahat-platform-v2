@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Beneficiary, Enums, TPIIData } from '@rahataid/sdk';
+import { Beneficiary, Enums, TPIIData } from '@workspace/sdk';
 import {
   ArrayNotEmpty,
   IsDate,
   IsEnum,
   IsNumber,
   IsOptional,
-  IsString
+  IsString,
 } from 'class-validator';
 import { UUID, randomUUID } from 'crypto';
 
@@ -34,7 +34,6 @@ export class CreateBeneficiaryDto implements Beneficiary {
   @IsNumber()
   @IsOptional()
   age?: number;
-
 
   @ApiProperty({
     type: 'string',
@@ -101,7 +100,7 @@ export class CreateBeneficiaryDto implements Beneficiary {
     example: {
       hasCitizenship: true,
       passportNumber: '1234567',
-      email: 'test@mailinator.com'
+      email: 'test@mailinator.com',
     },
   })
   @IsOptional()
@@ -159,6 +158,5 @@ export class CreateBeneficiaryDto implements Beneficiary {
   })
   @IsOptional()
   @ArrayNotEmpty()
-
   projectUUIDs?: string[];
 }

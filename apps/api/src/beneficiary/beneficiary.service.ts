@@ -5,7 +5,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { Beneficiary } from '@prisma/client';
-
 import { paginator, PaginatorTypes, PrismaService } from '@rumsan/prisma';
 import {
   BeneficiaryConstants,
@@ -17,14 +16,14 @@ import {
 } from '@workspace/sdk';
 import { Queue } from 'bull';
 import { UUID } from 'crypto';
-import { v4 as uuidv4 } from 'uuid';
 import {
   findTempBenefGroups,
   validateDupicatePhone,
   validateDupicateWallet,
-} from '../processors/processor.utils';
-import { createBatches } from '../utils/array';
-import { sanitizeNonAlphaNumericValue } from '../utils/sanitize-data';
+} from 'src/processors/processor.utils';
+import { createBatches } from 'src/utils/array';
+import { sanitizeNonAlphaNumericValue } from 'src/utils/sanitize-data';
+import { v4 as uuidv4 } from 'uuid';
 import { BeneficiaryUtilsService } from './beneficiary.utils.service';
 import {
   AddBenfGroupToProjectDto,

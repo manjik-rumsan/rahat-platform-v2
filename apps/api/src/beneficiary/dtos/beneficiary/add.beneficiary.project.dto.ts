@@ -1,12 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BeneficiaryConstants, TPIIData } from '@rahataid/sdk';
-import {
-  BankedStatus,
-  BeneficiaryType,
-  Gender,
-  InternetStatus,
-  PhoneStatus,
-} from '@rahataid/sdk/enums';
+import { BeneficiaryConstants, Enums, TPIIData } from '@workspace/sdk';
 import {
   IsDate,
   IsEnum,
@@ -47,12 +40,12 @@ export class AddBenToProjectDto implements CreateBeneficiaryDto {
 
   @ApiProperty({
     type: 'string',
-    example: Gender.MALE,
+    example: Enums.Gender.MALE,
     description: 'Gender ',
   })
   @IsString()
   @IsOptional()
-  gender?: Gender;
+  gender?: Enums.Gender;
 
   @ApiProperty({
     type: 'string',
@@ -61,7 +54,7 @@ export class AddBenToProjectDto implements CreateBeneficiaryDto {
   })
   @IsString()
   @IsOptional()
-  type?: BeneficiaryType;
+  type?: Enums.BeneficiaryType;
 
   @ApiProperty({
     type: 'string',
@@ -139,8 +132,8 @@ export class AddBenToProjectDto implements CreateBeneficiaryDto {
   })
   @IsOptional()
   @IsString()
-  @IsEnum(BankedStatus)
-  bankedStatus?: BankedStatus;
+  @IsEnum(Enums.BankedStatus)
+  bankedStatus?: Enums.BankedStatus;
 
   @ApiProperty({
     type: 'string',
@@ -149,8 +142,8 @@ export class AddBenToProjectDto implements CreateBeneficiaryDto {
   })
   @IsOptional()
   @IsString()
-  @IsEnum(InternetStatus)
-  internetStatus?: InternetStatus;
+  @IsEnum(Enums.InternetStatus)
+  internetStatus?: Enums.InternetStatus;
 
   @ApiProperty({
     type: 'string',
@@ -159,8 +152,8 @@ export class AddBenToProjectDto implements CreateBeneficiaryDto {
   })
   @IsOptional()
   @IsString()
-  @IsEnum(PhoneStatus)
-  phoneStatus?: PhoneStatus;
+  @IsEnum(Enums.PhoneStatus)
+  phoneStatus?: Enums.PhoneStatus;
 
   @ApiProperty({
     format: 'json',
@@ -179,11 +172,15 @@ export class AddBenToProjectDto implements CreateBeneficiaryDto {
   piiData: TPIIData;
 }
 
-export type referrerBeneficiary = UUID | undefined
+export type referrerBeneficiary = UUID | undefined;
 
-export type referrerVendor = UUID | undefined
+export type referrerVendor = UUID | undefined;
 
-export type projectUuid = UUID
-export type type = BeneficiaryType
+export type projectUuid = UUID;
+export type type = Enums.BeneficiaryType;
 
-export type addBulkBeneficiaryToProject = CreateBeneficiaryDto[] & referrerBeneficiary & referrerVendor & type & projectUuid
+export type addBulkBeneficiaryToProject = CreateBeneficiaryDto[] &
+  referrerBeneficiary &
+  referrerVendor &
+  type &
+  projectUuid;
