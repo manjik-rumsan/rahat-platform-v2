@@ -1,13 +1,12 @@
 import { ethers } from "ethers";
 import { Keypair } from 'stellar-sdk';
-import { IWalletManager, WalletKeys, WalletStorage } from "../types.js";
+import { IWalletManager, WalletStorage } from "../types.js";
 import { ConnectedWallet } from "./connectedWallet.js";
 
 export class StellarWallet implements IWalletManager {
     blockchainType = "STELLAR";
     rpcUrl: string;
     storage: WalletStorage
-    currentWalletKeys?: WalletKeys
 
     constructor(rpcUrl: string, storage: WalletStorage) {
         this.rpcUrl = rpcUrl
@@ -18,12 +17,6 @@ export class StellarWallet implements IWalletManager {
         await this.storage.init();
     }
 
-    async getWalletKeys(): Promise<WalletKeys> {
-        if (!this.currentWalletKeys) {
-            throw new Error("No current wallet to export");
-        }
-        return this.currentWalletKeys;
-    }
     async connect(walletAddess: string): Promise<ConnectedWallet> {
         const keys = await this.storage.getKey(walletAddess);
         if (!keys) throw new Error('Wallet not found')

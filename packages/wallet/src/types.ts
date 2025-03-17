@@ -20,9 +20,9 @@ export interface WalletStorage {
 
 // Is Mnemonic Required?
 export interface WalletKeys {
+    address: string;
     privateKey: string;
     publicKey?: string;
-    address: string;
     blockchain: string;
     mnemonic?: string; // Optional - Only if you want to support exports to external wallets and recovery
 }
@@ -33,7 +33,7 @@ export interface IConnectedWallet {
     getWalletKeys(): WalletKeys;
 }
 
-export type IWalletManager = {
+export interface IWalletManager {
     init(): Promise<void>;
     createWallet(): Promise<IConnectedWallet>;
     importWallet(privateKey: string): Promise<IConnectedWallet>;
