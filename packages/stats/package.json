@@ -1,0 +1,26 @@
+{
+  "name": "@rahat/stats",
+  "version": "0.0.1",
+  "license": "AGPL-3.0",
+  "licenses": [
+    {
+      "type": "AGPL-3.0",
+      "url": "https://opensource.org/licenses/AGPL-3.0"
+    },
+    {
+      "type": "Commercial License",
+      "url": "https://www.rumsan.com"
+    }
+  ],
+  "typings": "./src/index.d.ts",
+  "dependencies": {
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/swagger": "^11.0.6",
+    "@nestjs/testing": "^11.0.1",
+    "class-validator": "^0.14.1",
+    "@rumsan/prisma": "1.0.130"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14"
+  }
+}

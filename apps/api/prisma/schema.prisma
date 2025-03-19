@@ -383,6 +383,20 @@ model Project {
 }
 
 // ++++++++++++++++++ END: Rahat - Projects +++++++++++++++++++++++++++++++
+// ++++++++++++++++++ START: @rahat/stats - Statistics ++++++++++++++++++++
+
+model Stats {
+  name  String  @id @unique
+  data  Json
+  group String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+
+  @@map("tbl_stats")
+}
+
+// ++++++++++++++++++ END: @rahat/stats - Statistics +++++++++++++++++++++++
 // ++++++++++++++++++ START: @rahat/transactions - Vendors ++++++++++++++++++++
 model Vendors {
   id        Int       @id @default(autoincrement())
