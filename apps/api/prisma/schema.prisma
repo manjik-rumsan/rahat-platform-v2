@@ -33,4 +33,33 @@ enum SettingDataType {
   OBJECT
 }
 
+enum TokenDataType {
+  IMPORTED
+  CREATED
+}
+
 // ++++++++++++++++++ END: @rumsan/extensions/settings +++++++++++++++++++++++++++
+
+// ++++++++++++++++++ START: @rahat/tokens - Tokens ++++++++++++++++++++
+model Token {
+  id              Int           @id @default(autoincrement())
+  uuid            String        @unique @default(uuid()) @db.Uuid()
+  name            String
+  symbol          String        @unique
+  description     String?
+  decimals        Int
+  initialSupply   Int
+  fromBlock       Int           @unique
+  contractAddress String        @unique
+  transactionHash String?       @unique
+  type            TokenDataType @default(CREATED)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  createdBy Int?
+  updatedBy Int?
+
+  @@map("tbl_tokens")
+}
+
+// ===========End Tokens=============
