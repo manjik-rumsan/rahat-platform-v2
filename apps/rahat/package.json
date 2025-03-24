@@ -7,7 +7,27 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@workspace/sdk": "workspace:*"
+    "@nestjs/bull": "^11.0.2",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/event-emitter": "^3.0.0",
+    "@nestjs/mapped-types": "2.0.5",
+    "@nestjs/microservices": "^11.0.11",
+    "@nestjs/platform-fastify": "^11.0.5",
+    "@nestjs/swagger": "^11.0.7",
+    "@rumsan/extensions": "0.0.30",
+    "@rumsan/prisma": "1.0.130",
+    "@rumsan/user": "3.0.159",
+    "@types/express": "^5.0.0",
+    "@workspace/sdk": "workspace:*",
+    "body-parser": "^1.20.3",
+    "bull": "^4.16.5",
+    "class-validator": "^0.14.1",
+    "express": "^4.21.2",
+    "nest-winston": "^1.10.2",
+    "rxjs": "^7.8.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",

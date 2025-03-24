@@ -4,8 +4,8 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { BeneficiaryConstants, BQUEUE } from '@rahataid/sdk';
 import { PrismaModule } from '@rumsan/prisma';
+import { BeneficiaryConstants, BQUEUE } from '@workspace/sdk';
 import { ProjectController } from './project.controller';
 import { ProjectService } from './project.service';
 
@@ -39,10 +39,10 @@ import { ProjectService } from './project.service';
       },
     ]),
     BullModule.registerQueue({
-      name: BQUEUE.META_TXN
+      name: BQUEUE.META_TXN,
     }),
   ],
   controllers: [ProjectController],
   providers: [ProjectService],
 })
-export class ProjectModule { }
+export class ProjectModule {}

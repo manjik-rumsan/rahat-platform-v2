@@ -15,21 +15,6 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
-import {
-  CreateProjectDto,
-  ListProjectBeneficiaryDto,
-  ProjectCommunicationDto,
-  TestKoboImportDto,
-  UpdateProjectDto,
-  UpdateProjectStatusDto,
-} from '@rahataid/extensions';
-import {
-  ACTIONS,
-  APP,
-  BeneficiaryJobs,
-  MS_TIMEOUT,
-  ProjectJobs,
-} from '@rahataid/sdk';
 import { CreateSettingDto } from '@rumsan/extensions/dtos';
 import {
   AbilitiesGuard,
@@ -37,9 +22,26 @@ import {
   JwtGuard,
   SUBJECTS,
 } from '@rumsan/user';
+import {
+  ACTIONS,
+  APP,
+  BeneficiaryJobs,
+  MS_TIMEOUT,
+  ProjectJobs,
+} from '@workspace/sdk';
 import { UUID } from 'crypto';
 import { Request } from 'express';
 import { timeout } from 'rxjs/operators';
+import {
+  ListProjectBeneficiaryDto,
+  TestKoboImportDto,
+} from '../../../api/src/beneficiary/dtos/beneficiary';
+import {
+  CreateProjectDto,
+  ProjectCommunicationDto,
+  UpdateProjectDto,
+  UpdateProjectStatusDto,
+} from './dtos';
 import { ProjectService } from './project.service';
 
 @Controller('projects')

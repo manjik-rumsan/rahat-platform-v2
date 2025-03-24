@@ -1,8 +1,9 @@
-export const EVENTS = {
-  DEMO: {
-    PING: 'ping',
-    PONG: 'pong',
-  },
+import { RabbitMQModuleOptions } from '@rumsan/rabbitmq';
+
+export const APP_JOBS = {
+  EMAIL: 'email',
+  SLACK: 'slack',
+  OTP: 'otp',
 };
 
 export const MS_TIMEOUT = 500000;
@@ -13,6 +14,32 @@ export const BQUEUE = {
   RAHAT_BENEFICIARY: 'RAHAT.BENEFICIARY',
   HOST: 'RAHAT.HOST',
   META_TXN: 'RAHAT.META_TXN',
+};
+
+export const UserRoles = {
+  ADMIN: 'Admin',
+  USER: 'User',
+  VENDOR: 'Vendor',
+};
+
+export const ACTIONS = {
+  MANAGE: 'manage',
+  CREATE: 'create',
+  UPDATE: 'update',
+  DELETE: 'delete',
+  READ: 'read',
+};
+
+export const SUBJECTS = {
+  ALL: 'all',
+  BENEFICIARY: 'beneficiary',
+  PROJECT: 'project',
+  VENDOR: 'vendor',
+  PUBLIC: 'public',
+};
+
+export const APP = {
+  JWT_BEARER: 'JWT',
 };
 
 export const MS_ACTIONS = {
@@ -327,3 +354,15 @@ export const MS_ACTIONS = {
     GET_ONE_GROUP: 'comms.beneficiary.getOneGroup',
   },
 };
+
+export const RABBIT_MQ = {
+  AMQP_CONNECTION: 'AMQP_CONNECTION',
+  CT_BENEFICIARY_EXPORT: 'CT_BENEFICIARY_EXPORT',
+};
+export const queueOptions: RabbitMQModuleOptions['queues'] = [
+  {
+    name: RABBIT_MQ.CT_BENEFICIARY_EXPORT,
+    durable: true,
+    options: {},
+  },
+];

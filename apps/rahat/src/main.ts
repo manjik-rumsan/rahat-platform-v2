@@ -4,16 +4,18 @@
  * This is not a production server yet!
  * This is only a minimal backend to get started.
  */
-import * as bodyParser from 'body-parser';
-
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { GlobalCustomExceptionFilter, ResponseTransformInterceptor } from '@rahataid/extensions';
-import { APP } from '@rahataid/sdk';
+import {
+  GlobalCustomExceptionFilter,
+  ResponseTransformInterceptor,
+} from '@rahataid/extensions';
+import { APP } from '@workspace/sdk';
+import * as bodyParser from 'body-parser';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app/app.module';
 import { loggerInstance } from './logger/winston.logger';
@@ -21,9 +23,8 @@ import { loggerInstance } from './logger/winston.logger';
 // import { GlobalExceptionFilter } from './utils/exceptions/rpcException.filter';
 
 async function bootstrap() {
-  const _logger = new Logger(NestApplication.name)
+  const _logger = new Logger(NestApplication.name);
   const configService = new ConfigService();
-
 
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, {
     logger: WinstonModule.createLogger({
@@ -33,15 +34,14 @@ async function bootstrap() {
   const globalPrefix = 'v1';
   app.enableCors();
 
-  const microservice = app.connectMicroservice<MicroserviceOptions>(
-    {
-      transport: Transport.REDIS,
-      options: {
-        host: configService.get('REDIS_HOST'),
-        port: configService.get('REDIS_PORT'),
-        password: configService.get('REDIS_PASSWORD'),
-      },
-    })
+  const microservice = app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.REDIS,
+    options: {
+      host: configService.get('REDIS_HOST'),
+      port: configService.get('REDIS_PORT'),
+      password: configService.get('REDIS_PASSWORD'),
+    },
+  });
 
   // app.use(bodyParser.raw({ type: 'application/octet-stream' }));
   app.use(bodyParser.raw({ type: 'application/octet-stream', limit: '50mb' }));
@@ -56,7 +56,7 @@ async function bootstrap() {
       whitelist: true,
       transform: true,
       transformOptions: { enableImplicitConversion: true },
-    })
+    }),
   );
   app.useGlobalFilters(new GlobalCustomExceptionFilter());
   app.useGlobalInterceptors(new ResponseTransformInterceptor());
@@ -71,7 +71,7 @@ async function bootstrap() {
       .setVersion('1.0')
       .addBearerAuth(
         { type: 'http', scheme: 'bearer', bearerFormat: APP.JWT_BEARER },
-        APP.JWT_BEARER
+        APP.JWT_BEARER,
       )
       .build();
 
@@ -82,7 +82,7 @@ async function bootstrap() {
   await app.startAllMicroservices();
   await app.listen(port);
   _logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
   );
   _logger.log(`Swagger UI: http://localhost:${port}/swagger`);
 }
