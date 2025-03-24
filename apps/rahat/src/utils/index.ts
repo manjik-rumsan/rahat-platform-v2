@@ -18,3 +18,7 @@ export const createExtrasAndPIIData = (beneficiary: any) => {
   const payload = { type, age, gender, piiData, extras };
   return payload;
 };
+
+export function removeSpaces(phoneNumber: string): string {
+  return phoneNumber.replace(/\s+/g, '');
+}
