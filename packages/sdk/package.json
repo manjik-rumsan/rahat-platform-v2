@@ -11,12 +11,15 @@
   },
   "exports": {
     ".": "./src/index.ts",
+    "./aa/*": "./src/aa/*.ts",
     "./clients/*": "./src/clients/*.ts",
     "./constants/*": "./src/constants/*.ts",
+    "./project/*": "./src/project/*.ts",
     "./dtos/*": "./src/dtos/*.ts",
     "./types/*": "./src/types/*.ts",
     "./utils/*": "./src/utils/*.ts",
-    "./beneficiary/*": "./src/beneficiary/*.ts"
+    "./beneficiary/*": "./src/beneficiary/*.ts",
+    "./vendor/*": "./src/vendor/*.ts"
   },
   "dependencies": {
     "@rumsan/sdk": "^0.1.152",
