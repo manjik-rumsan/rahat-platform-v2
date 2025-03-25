@@ -44,6 +44,7 @@
     "viem": "^2.8.4",
     "bull": "^4.12.2",
     "class-validator": "^0.14.1",
+    "class-transformer": "^0.5.1",
     "dotenv": "^16.4.5",
     "nest-winston": "^1.10.2",
     "nodemailer": "^6.9.11",
