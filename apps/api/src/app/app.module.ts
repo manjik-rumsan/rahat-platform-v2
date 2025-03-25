@@ -9,6 +9,7 @@ import {
 } from '@rumsan/user';
 import { DemoModule } from 'src/demo/demo.module';
 import { GrievanceModule } from 'src/grievance/grievance.module';
+import { QueueModule } from 'src/queue/queue.module';
 import { ListenerModule } from '../listeners/listener.module';
 import { AppUsersModule } from '../vendors/vendors.module';
 import { AppController } from './app.controller';
@@ -26,8 +27,8 @@ import { WebSocketService } from './websocket.service';
     ListenerModule,
     RSUserModule.forRoot([AuthsModule, UsersModule, RolesModule]),
     GrievanceModule,
-    AppUsersModule
-
+    AppUsersModule,
+    QueueModule
   ],
   controllers: [AppController],
   providers: [AppService, WebSocketService],

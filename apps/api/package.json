@@ -42,6 +42,7 @@
     "@workspace/sdk": "workspace:*",
     "axios": "^1.6.7",
     "viem": "^2.8.4",
+    "bull": "^4.12.2",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
     "nest-winston": "^1.10.2",
