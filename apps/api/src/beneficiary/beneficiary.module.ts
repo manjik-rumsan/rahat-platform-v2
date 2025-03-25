@@ -6,7 +6,7 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { StatsModule } from '@rahat/stats';
+// import { StatsModule } from '@rahat/stats';
 import { PrismaModule } from '@rumsan/prisma';
 import { BQUEUE, ProjectContants } from '@workspace/sdk';
 import { BeneficiaryConsumer } from 'src/consumers/beneficiary.consumer';
@@ -29,7 +29,7 @@ import { VerificationService } from './verification.service';
       },
     ]),
     PrismaModule,
-    StatsModule,
+    // StatsModule,
     BullModule.registerQueue({
       name: BQUEUE.RAHAT_BENEFICIARY,
     }),

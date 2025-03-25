@@ -10,15 +10,15 @@ import { NestApplication, NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import {
-  GlobalCustomExceptionFilter,
-  ResponseTransformInterceptor,
-} from '@rahataid/extensions';
 import { APP } from '@workspace/sdk';
 import * as bodyParser from 'body-parser';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app/app.module';
 import { loggerInstance } from './logger/winston.logger';
+import {
+  GlobalCustomExceptionFilter,
+  ResponseTransformInterceptor,
+} from './utils/exception';
 
 // import { GlobalExceptionFilter } from './utils/exceptions/rpcException.filter';
 
