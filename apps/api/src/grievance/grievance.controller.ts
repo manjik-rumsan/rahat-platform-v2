@@ -3,7 +3,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AbilitiesGuard, CheckAbilities, JwtGuard, SUBJECTS } from "@rumsan/user";
-import { ACTIONS, APP } from "@workspace/sdk/constants/events";
+import { ACTIONS, APP } from "@workspace/sdk/constants/index";
 import { ChangeGrievanceStatusDTO, CreateGrievanceDTO, ListGrievanceDTO } from "./dto/index";
 import { GrievanceService } from "./grievance.service";
 

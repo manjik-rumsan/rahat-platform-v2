@@ -27,6 +27,7 @@ model User {
   Auth          Auth[]
   UserRole      UserRole[]
   Signup        Signup[]
+  VendorProject ProjectVendors[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt()
@@ -177,13 +178,213 @@ enum SignupStatus {
 }
 
 // ++++++++++++++++++ END: @rumsan/user - Signup +++++++++++++++++++++++++++
+// ++++++++++++++++++ START: @rumsan/settings +++++++++++++++++++++++++++
 
+model Setting {
+  name           String          @id @unique
+  value          Json
+  dataType       SettingDataType
+  requiredFields String[]
+  isReadOnly     Boolean         @default(false)
+  isPrivate      Boolean         @default(true)
+
+  @@map("tbl_settings")
+}
+
+enum SettingDataType {
+  STRING
+  NUMBER
+  BOOLEAN
+  OBJECT
+}
+
+enum TokenDataType {
+  IMPORTED
+  CREATED
+}
+
+// ++++++++++++++++++ END: @rumsan/settings +++++++++++++++++++++++++++
+
+model AuthApp {
+  id           Int     @id @default(autoincrement())
+  uuid         String  @unique @default(uuid())
+  address      String  @unique
+  name         String
+  description  String?
+  nonceMessage String?
+
+  createdBy String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+
+  @@map("tbl_auth_apps")
+}
+
+// ++++++++++++++++++ START: @rahat/beneficiaries +++++++++++++++++++++++++++
+
+model Beneficiary {
+  id             Int            @id @default(autoincrement()) @db.Integer()
+  uuid           String         @unique @default(uuid()) @db.Uuid()
+  gender         Gender         @default(UNKNOWN)
+  walletAddress  String         @unique
+  birthDate      DateTime?
+  age            Int?
+  location       String?
+  latitude       Float?
+  longitude      Float?
+  extras         Json?          @db.JsonB()
+  notes          String?
+  bankedStatus   BankedStatus   @default(UNKNOWN)
+  internetStatus InternetStatus @default(UNKNOWN)
+  phoneStatus    PhoneStatus    @default(UNKNOWN)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime?      @updatedAt()
+  deletedAt      DateTime?
+  isVerified     Boolean        @default(false)
+
+  pii                  BeneficiaryPii?        @relation("BeneficiaryToPii")
+  BeneficiaryProject   BeneficiaryProject[]
+  groupedBeneficiaries GroupedBeneficiaries[]
+
+  @@index([deletedAt])
+  @@map("tbl_beneficiaries")
+}
+
+model GroupedBeneficiaries {
+  id   Int    @id @default(autoincrement()) @db.Integer()
+  uuid String @unique @default(uuid()) @db.Uuid()
+
+  beneficiaryGroupId String           @db.Uuid()
+  beneficiaryGroup   BeneficiaryGroup @relation(fields: [beneficiaryGroupId], references: [uuid])
+
+  beneficiaryId String      @db.Uuid()
+  Beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [uuid])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+  deletedAt DateTime?
+
+  @@unique([beneficiaryGroupId, beneficiaryId], name: "beneficiaryGroupIdentifier")
+  @@index([beneficiaryGroupId])
+  @@index([beneficiaryId])
+  @@index([deletedAt])
+  @@map("tbl_grouped_beneficiaries")
+}
+
+model BeneficiaryGroup {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique @default(uuid()) @db.Uuid()
+
+  name String @unique
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+
+  groupedBeneficiaries    GroupedBeneficiaries[]
+  beneficiaryGroupProject BeneficiaryGroupProject[]
+
+  @@index([deletedAt])
+  @@map("tbl_beneficiaries_group")
+}
+
+model BeneficiaryGroupProject {
+  id   Int    @id @default(autoincrement()) @db.Integer()
+  uuid String @unique @default(uuid()) @db.Uuid()
+
+  projectId String  @db.Uuid()
+  Project   Project @relation(fields: [projectId], references: [uuid])
+
+  beneficiaryGroupId String           @db.Uuid()
+  beneficiaryGroup   BeneficiaryGroup @relation(fields: [beneficiaryGroupId], references: [uuid])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+  deletedAt DateTime?
+
+  @@unique([projectId, beneficiaryGroupId], name: "beneficiaryGroupProjectIdentifier")
+  @@index([projectId])
+  @@index([beneficiaryGroupId])
+  @@index([deletedAt])
+  @@map("tbl_beneficiaries_gorup_projects")
+}
+
+model BeneficiaryProject {
+  id   Int    @id @default(autoincrement()) @db.Integer()
+  uuid String @unique @default(uuid()) @db.Uuid()
+
+  projectId String  @db.Uuid()
+  Project   Project @relation(fields: [projectId], references: [uuid])
+
+  beneficiaryId String      @db.Uuid()
+  Beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [uuid])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+  deletedAt DateTime?
+
+  @@unique([projectId, beneficiaryId], name: "beneficiaryProjectIdentifier")
+  @@index([projectId])
+  @@index([beneficiaryId])
+  @@index([deletedAt])
+  @@map("tbl_beneficiaries_projects")
+}
+
+// ++++++++++++++++++ END: @rahat/beneficiaries +++++++++++++++++++++++++++
+
+enum ProjectStatus {
+  NOT_READY
+  ACTIVE
+  CLOSED
+}
+
+enum BeneficiaryTypes {
+  ENROLLED
+  REFERRED
+}
+
+model BeneficiaryPii {
+  beneficiaryId Int         @unique
+  name          String?
+  phone         String      @unique
+  email         String?
+  extras        Json?       @db.JsonB()
+  beneficiary   Beneficiary @relation("BeneficiaryToPii", fields: [beneficiaryId], references: [id])
+
+  @@map("tbl_beneficiaries_pii")
+}
+
+enum BankedStatus {
+  UNKNOWN
+  UNBANKED
+  BANKED
+  UNDER_BANKED
+}
+
+enum InternetStatus {
+  UNKNOWN
+  NO_INTERNET
+  HOME_INTERNET
+  MOBILE_INTERNET
+}
+
+enum PhoneStatus {
+  UNKNOWN
+  NO_PHONE
+  FEATURE_PHONE
+  SMART_PHONE
+}
+
+// ++++++++++++++++++ END: Rahat - Projects +++++++++++++++++++++++
+// ++++++++++++++++++ END: @rahat/beneficiaries +++++++++++++++++++++++++++
 // ++++++++++++++++++ START: @rahat/projects - Projects +++++++++++++++++++
 model Project {
   id              Int           @id @default(autoincrement())
   uuid            String        @unique @default(uuid()) @db.Uuid()
   name            String
   description     String?
+  status          ProjectStatus @default(NOT_READY)
   type            String
   contractAddress String?
   extras          Json?         @db.JsonB()
@@ -191,11 +392,93 @@ model Project {
   createdAt               DateTime                  @default(now())
   updatedAt               DateTime?                 @updatedAt()
   deletedAt               DateTime?
+  BeneficiaryProject      BeneficiaryProject[]
+  ProjectVendors          ProjectVendors[]
+  beneficiaryGroupProject BeneficiaryGroupProject[]
 
   Grievance Grievance[]
 
   @@map("tbl_projects")
 }
+
+// ++++++++++++++++++ END: Rahat - Projects +++++++++++++++++++++++++++++++
+// ++++++++++++++++++ START: @rahat/stats - Statistics ++++++++++++++++++++
+
+model Stats {
+  name  String  @id @unique
+  data  Json
+  group String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+
+  @@map("tbl_stats")
+}
+
+// ++++++++++++++++++ END: @rahat/stats - Statistics +++++++++++++++++++++++
+
+// ++++++++++++++++++ START: @rahat/transactions - Vendors ++++++++++++++++++++
+model Vendors {
+  id        Int       @id @default(autoincrement())
+  uuid      String    @unique @default(uuid()) @db.Uuid()
+  name      String
+  email     String?
+  phone     String?
+  location  String?
+  wallet    String?
+  extras    Json?     @db.JsonB()
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+
+  @@map("tbl_vendors")
+}
+
+model ProjectVendors {
+  id        Int     @id @default(autoincrement())
+  projectId String  @db.Uuid()
+  Project   Project @relation(fields: [projectId], references: [uuid])
+
+  vendorId String
+  User     User   @relation(fields: [vendorId], references: [uuid])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+  extras    Json?     @db.JsonB()
+
+  @@unique([projectId, vendorId], name: "projectVendorIdentifier")
+  @@map("tbl_projects_vendors")
+}
+
+// ++++++++++++++++++ END: @rahat/transactions - Vendors ++++++++++++++++++++++
+
+// ++++++++++++++++++ START: @rahat/transactions - Transactions ++++++++++++++++++++
+model Transactions {
+  id            Int               @id @default(autoincrement())
+  uuid          String            @unique @default(uuid()) @db.Uuid()
+  projectId     String            @db.Uuid()
+  beneficiaryId String            @db.Uuid()
+  vendorId      String            @db.Uuid()
+  amount        Float
+  currency      String
+  status        TransactionStatus @default(PENDING)
+  extras        Json?             @db.JsonB()
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime?         @updatedAt()
+  deletedAt     DateTime?
+
+  @@map("tbl_transactions")
+}
+
+enum TransactionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FAILED
+}
+
+// ++++++++++++++++++ END: @rahat/transactions - Transactions ++++++++++++++++++++++
 
 // ++++++++++++++++++ START: @rahat/grievances - Grievances ++++++++++++++++++++
 
@@ -235,32 +518,185 @@ model Grievance {
 
 //  ++++++++++++++++++ END: @rahat/grievances - Grievances ++++++++++++++++++++++
 
-// ++++++++++++++++++ START: @rumsan/settings +++++++++++++++++++++++++++
+// ===========Temporary beneficiary storage=============
+model TempBeneficiary {
+  id                       Int                    @id @default(autoincrement())
+  uuid                     String                 @unique @default(uuid()) @db.Uuid()
+  firstName                String
+  lastName                 String
+  govtIDNumber             String?
+  gender                   Gender                 @default(UNKNOWN)
+  birthDate                DateTime?
+  walletAddress            String
+  phone                    String?
+  email                    String?
+  archived                 Boolean                @default(false)
+  location                 String?
+  latitude                 Float?
+  longitude                Float?
+  notes                    String?
+  bankedStatus             BankedStatus           @default(UNKNOWN)
+  internetStatus           InternetStatus         @default(UNKNOWN)
+  phoneStatus              PhoneStatus            @default(UNKNOWN)
+  createdAt                DateTime               @default(now())
+  updatedAt                DateTime?              @updatedAt()
+  extras                   Json?                  @db.JsonB()
+  deletedAt                DateTime?
+  TempGroupedBeneficiaries TempBeneficiaryGroup[]
 
-model Setting {
-  name           String          @id @unique
-  value          Json
-  dataType       SettingDataType
-  requiredFields String[]
-  isReadOnly     Boolean         @default(false)
-  isPrivate      Boolean         @default(true)
-
-  @@map("tbl_settings")
+  @@map("tbl_temp_beneficiaries")
 }
 
-enum SettingDataType {
-  STRING
-  NUMBER
-  BOOLEAN
-  OBJECT
+enum KoboBeneficiaryType {
+  SALE
+  LEAD
+  HOME_VISIT
 }
 
-enum TokenDataType {
-  IMPORTED
-  CREATED
+enum KoboBeneficiaryStatus {
+  PENDING
+  FAILED
+  SUCCESS
 }
 
-// ++++++++++++++++++ END: @rumsan/settings +++++++++++++++++++++++++++
+model KoboBeneficiary {
+  id                       Int                    @id @default(autoincrement())
+  uuid                     String                 @unique @default(uuid()) @db.Uuid()
+  name                     String
+  gender                   Gender                 @default(UNKNOWN)
+  type                     KoboBeneficiaryType    @default(SALE)
+  status                   KoboBeneficiaryStatus  @default(PENDING)
+  phone                    String
+  age                      Int?
+  email                    String?
+  wallet                   String?
+  leadInterests            String[]
+  extras                    Json?                  @db.JsonB()
 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
 
+  @@map("tbl_kobo_beneficiaries")
+}
 
+model TempGroup {
+  id                       Int                    @id @default(autoincrement())
+  uuid                     String                 @unique @default(uuid()) @db.Uuid()
+  name                     String                 @unique
+  createdAt                DateTime               @default(now())
+  TempGroupedBeneficiaries TempBeneficiaryGroup[]
+
+  @@map("tbl_temp_group")
+}
+
+model TempBeneficiaryGroup {
+  id   Int    @id @default(autoincrement()) @db.Integer()
+  uuid String @unique @default(uuid()) @db.Uuid()
+
+  tempGroupUID String    @db.Uuid()
+  tempGroup    TempGroup @relation(fields: [tempGroupUID], references: [uuid])
+
+  tempBenefUID    String          @db.Uuid()
+  tempBeneficiary TempBeneficiary @relation(fields: [tempBenefUID], references: [uuid])
+  createdAt       DateTime        @default(now())
+
+  @@unique([tempGroupUID, tempBenefUID], name: "tempBeneficiaryGroupIdentifier")
+  @@map("tbl_temp_beneficiary_group")
+}
+
+// ===========End Temporary benef storage=============
+
+// ++++++++++++++++++ START: @rahat/tokens - Tokens ++++++++++++++++++++
+model Token {
+  id              Int           @id @default(autoincrement())
+  uuid            String        @unique @default(uuid()) @db.Uuid()
+  name            String
+  symbol          String        @unique
+  description     String?
+  decimals        Int
+  initialSupply   Int
+  fromBlock       Int           @unique
+  contractAddress String        @unique
+  transactionHash String?       @unique
+  type            TokenDataType @default(CREATED)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  createdBy Int?
+  updatedBy Int?
+
+  @@map("tbl_tokens")
+}
+
+// ===========End Tokens=============
+
+// region: @rahat/offramp
+
+model OfframpProvider {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @default(uuid())
+  name        String    @unique()
+  description String?
+  config      Json      @db.JsonB()
+  extras      Json?     @db.JsonB()
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt()
+  deletedAt   DateTime?
+  createdBy   Int?
+  updatedBy   Int?
+
+  @@map("tbl_offramp_providers")
+}
+
+enum OfframpStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model OfframpRequest {
+  id            Int                 @id @default(autoincrement())
+  uuid          String              @unique @default(uuid())
+  chain         String
+  token         String
+  senderAddress String
+  amount        Float
+  requestId     String?             @unique
+  escrowAddress String?
+  status        OfframpStatus       @default(PENDING)
+  transaction   OfframpTransaction? @relation("RequestTransaction")
+  extras        Json?               @db.JsonB()
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime?           @updatedAt()
+  deletedAt     DateTime?
+  createdBy     Int?
+  updatedBy     Int?
+
+  @@map("tbl_offramps")
+}
+
+model OfframpTransaction {
+  id             Int            @id @default(autoincrement())
+  uuid           String         @unique @default(uuid())
+  requestId      String         @unique
+  txHash         String
+  walletId       String?
+  customerKey    String?
+  chain          String?
+  token          String?
+  referenceId    String?
+  status         OfframpStatus  @default(PENDING)
+  extras         Json?          @db.JsonB()
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime?      @updatedAt()
+  deletedAt      DateTime?
+  createdBy      Int?
+  updatedBy      Int?
+  offrampRequest OfframpRequest @relation("RequestTransaction", fields: [requestId], references: [requestId])
+
+  @@map("tbl_offramp_transactions")
+}
+
+// endregion: @rahat/offramp

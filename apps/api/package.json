@@ -22,6 +22,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/bull": "10.1.0",
     "@nestjs/common": "10.3.3",
     "@nestjs/config": "^3.2.0",
     "@nestjs/core": "^10.3.3",
@@ -29,6 +30,7 @@
     "@nestjs/platform-express": "^10.3.3",
     "@nestjs/platform-fastify": "^10.3.3",
     "@nestjs/platform-socket.io": "^11.0.7",
+    "@nestjs/microservices": "^10.3.3",
     "@nestjs/swagger": "^7.3.0",
     "@nestjs/websockets": "^11.0.7",
     "@prisma/client": "5.15.1",
@@ -39,6 +41,7 @@
     "@rumsan/user": "3.0.159",
     "@workspace/sdk": "workspace:*",
     "axios": "^1.6.7",
+    "viem": "^2.8.4",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
     "nest-winston": "^1.10.2",
