@@ -1,9 +1,21 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { DemoModule } from 'src/demo/demo.module';
-import { ListenerModule } from '../listeners/listener.module';
+
 import { TokenModule } from '../token/token.module';
+=======
+import {
+  AuthsModule,
+  RSUserModule,
+  RolesModule,
+  UsersModule,
+} from '@rumsan/user';
+import { DemoModule } from 'src/demo/demo.module';
+import { GrievanceModule } from 'src/grievance/grievance.module';
+import { OfframpModule } from 'src/offramp/offramp.module';
+import { QueueModule } from 'src/queue/queue.module';
+import { ListenerModule } from '../listeners/listener.module';
+import { AppUsersModule } from '../vendors/vendors.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { WebSocketService } from './websocket.service';
@@ -18,6 +30,12 @@ import { WebSocketService } from './websocket.service';
     DemoModule,
     ListenerModule,
     TokenModule,
+    RSUserModule.forRoot([AuthsModule, UsersModule, RolesModule]),
+    GrievanceModule,
+    AppUsersModule,
+    QueueModule,
+    OfframpModule
+
   ],
   controllers: [AppController],
   providers: [AppService, WebSocketService],

@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OnEvent } from '@nestjs/event-emitter';
-import { tRC } from '@rumsan/sdk';
 import { EVENTS } from '@workspace/sdk/constants/events';
 import { WebSocketService } from '../app/websocket.service';
 
@@ -12,10 +11,11 @@ export class DemoListener {
   constructor(
     private config: ConfigService,
     private ws: WebSocketService,
-  ) {}
+  ) { }
 
   @OnEvent(EVENTS.DEMO.PING)
-  async hello(message: string, rc: tRC) {
+  //TODO: fix any
+  async hello(message: string, rc: any) {
     console.log('PING EVENT RECEIVED:', message);
 
     if (rc.clientId) {
