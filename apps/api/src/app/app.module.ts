@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+
+import { TokenModule } from '../token/token.module';
+=======
 import {
   AuthsModule,
   RSUserModule,
@@ -26,11 +29,13 @@ import { WebSocketService } from './websocket.service';
     }),
     DemoModule,
     ListenerModule,
+    TokenModule,
     RSUserModule.forRoot([AuthsModule, UsersModule, RolesModule]),
     GrievanceModule,
     AppUsersModule,
     QueueModule,
     OfframpModule
+
   ],
   controllers: [AppController],
   providers: [AppService, WebSocketService],
