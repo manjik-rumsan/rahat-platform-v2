@@ -1,11 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -17,14 +15,14 @@ datasource db {
 
 // =================== User Module ==================
 model User {
-  id     Int     @id @default(autoincrement())
-  uuid   String  @unique @default(uuid())
-  name   String?
-  gender Gender  @default(UNKNOWN)
-  email  String?
-  phone  String?
-  wallet String?
-  extras Json?   @db.JsonB()
+  id        Int     @id @default(autoincrement())
+  uuid      String  @unique @default(uuid())
+  name      String?
+  gender    Gender  @default(UNKNOWN)
+  email     String?
+  phone     String?
+  wallet    String?
+  extras    Json?   @db.JsonB()
 
   Auth          Auth[]
   UserRole      UserRole[]
@@ -180,7 +178,7 @@ enum SignupStatus {
 }
 
 // ++++++++++++++++++ END: @rumsan/user - Signup +++++++++++++++++++++++++++
-// ++++++++++++++++++ START: @rumsan/extensions/settings +++++++++++++++++++++++++++
+// ++++++++++++++++++ START: @rumsan/settings +++++++++++++++++++++++++++
 
 model Setting {
   name           String          @id @unique
@@ -200,7 +198,29 @@ enum SettingDataType {
   OBJECT
 }
 
-// ++++++++++++++++++ END: @rumsan/extensions/settings +++++++++++++++++++++++++++
+enum TokenDataType {
+  IMPORTED
+  CREATED
+}
+
+// ++++++++++++++++++ END: @rumsan/settings +++++++++++++++++++++++++++
+
+model AuthApp {
+  id           Int     @id @default(autoincrement())
+  uuid         String  @unique @default(uuid())
+  address      String  @unique
+  name         String
+  description  String?
+  nonceMessage String?
+
+  createdBy String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+
+  @@map("tbl_auth_apps")
+}
+
 
 // ++++++++++++++++++ START: @rahat/beneficiaries +++++++++++++++++++++++++++
 
@@ -397,6 +417,7 @@ model Stats {
 }
 
 // ++++++++++++++++++ END: @rahat/stats - Statistics +++++++++++++++++++++++
+
 // ++++++++++++++++++ START: @rahat/transactions - Vendors ++++++++++++++++++++
 model Vendors {
   id        Int       @id @default(autoincrement())
@@ -432,6 +453,35 @@ model ProjectVendors {
 }
 
 // ++++++++++++++++++ END: @rahat/transactions - Vendors ++++++++++++++++++++++
+
+// ++++++++++++++++++ START: @rahat/transactions - Transactions ++++++++++++++++++++
+model Transactions {
+  id            Int               @id @default(autoincrement())
+  uuid          String            @unique @default(uuid()) @db.Uuid()
+  projectId     String            @db.Uuid()
+  beneficiaryId String            @db.Uuid()
+  vendorId      String            @db.Uuid()
+  amount        Float
+  currency      String
+  status        TransactionStatus @default(PENDING)
+  extras        Json?             @db.JsonB()
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime?         @updatedAt()
+  deletedAt     DateTime?
+
+  @@map("tbl_transactions")
+}
+
+enum TransactionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FAILED
+}
+
+// ++++++++++++++++++ END: @rahat/transactions - Transactions ++++++++++++++++++++++
+
+
 // ++++++++++++++++++ START: @rahat/grievances - Grievances ++++++++++++++++++++
 
 enum GrievanceStatus {
@@ -469,3 +519,187 @@ model Grievance {
 }
 
 //  ++++++++++++++++++ END: @rahat/grievances - Grievances ++++++++++++++++++++++
+
+// ===========Temporary beneficiary storage=============
+model TempBeneficiary {
+  id                       Int                    @id @default(autoincrement())
+  uuid                     String                 @unique @default(uuid()) @db.Uuid()
+  firstName                String
+  lastName                 String
+  govtIDNumber             String?
+  gender                   Gender                 @default(UNKNOWN)
+  birthDate                DateTime?
+  walletAddress            String
+  phone                    String?
+  email                    String?
+  archived                 Boolean                @default(false)
+  location                 String?
+  latitude                 Float?
+  longitude                Float?
+  notes                    String?
+  bankedStatus             BankedStatus           @default(UNKNOWN)
+  internetStatus           InternetStatus         @default(UNKNOWN)
+  phoneStatus              PhoneStatus            @default(UNKNOWN)
+  createdAt                DateTime               @default(now())
+  updatedAt                DateTime?              @updatedAt()
+  extras                   Json?                  @db.JsonB()
+  deletedAt                DateTime?
+  TempGroupedBeneficiaries TempBeneficiaryGroup[]
+
+  @@map("tbl_temp_beneficiaries")
+}
+
+enum KoboBeneficiaryType {
+  SALE
+  LEAD
+  HOME_VISIT
+}
+
+enum KoboBeneficiaryStatus {
+  PENDING
+  FAILED
+  SUCCESS
+}
+
+model KoboBeneficiary {
+  id                       Int                    @id @default(autoincrement())
+  uuid                     String                 @unique @default(uuid()) @db.Uuid()
+  name                     String
+  gender                   Gender                 @default(UNKNOWN)
+  type                     KoboBeneficiaryType    @default(SALE)
+  status                   KoboBeneficiaryStatus  @default(PENDING)
+  phone                    String
+  age                      Int?
+  email                    String?
+  wallet                   String?
+  leadInterests            String[]
+  extras                    Json?                  @db.JsonB()
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+
+  @@map("tbl_kobo_beneficiaries")
+}
+
+model TempGroup {
+  id                       Int                    @id @default(autoincrement())
+  uuid                     String                 @unique @default(uuid()) @db.Uuid()
+  name                     String                 @unique
+  createdAt                DateTime               @default(now())
+  TempGroupedBeneficiaries TempBeneficiaryGroup[]
+
+  @@map("tbl_temp_group")
+}
+
+model TempBeneficiaryGroup {
+  id   Int    @id @default(autoincrement()) @db.Integer()
+  uuid String @unique @default(uuid()) @db.Uuid()
+
+  tempGroupUID String    @db.Uuid()
+  tempGroup    TempGroup @relation(fields: [tempGroupUID], references: [uuid])
+
+  tempBenefUID    String          @db.Uuid()
+  tempBeneficiary TempBeneficiary @relation(fields: [tempBenefUID], references: [uuid])
+  createdAt       DateTime        @default(now())
+
+  @@unique([tempGroupUID, tempBenefUID], name: "tempBeneficiaryGroupIdentifier")
+  @@map("tbl_temp_beneficiary_group")
+}
+
+// ===========End Temporary benef storage=============
+
+// ++++++++++++++++++ START: @rahat/tokens - Tokens ++++++++++++++++++++
+model Token {
+  id              Int           @id @default(autoincrement())
+  uuid            String        @unique @default(uuid()) @db.Uuid()
+  name            String
+  symbol          String        @unique
+  description     String?
+  decimals        Int
+  initialSupply   Int
+  fromBlock       Int           @unique
+  contractAddress String        @unique
+  transactionHash String?       @unique
+  type            TokenDataType @default(CREATED)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  createdBy Int?
+  updatedBy Int?
+
+  @@map("tbl_tokens")
+}
+
+// ===========End Tokens=============
+
+// region: @rahat/offramp
+
+model OfframpProvider {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @default(uuid())
+  name        String    @unique()
+  description String?
+  config      Json      @db.JsonB()
+  extras      Json?     @db.JsonB()
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt()
+  deletedAt   DateTime?
+  createdBy   Int?
+  updatedBy   Int?
+
+  @@map("tbl_offramp_providers")
+}
+
+enum OfframpStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model OfframpRequest {
+  id            Int                 @id @default(autoincrement())
+  uuid          String              @unique @default(uuid())
+  chain         String
+  token         String
+  senderAddress String
+  amount        Float
+  requestId     String?             @unique
+  escrowAddress String?
+  status        OfframpStatus       @default(PENDING)
+  transaction   OfframpTransaction? @relation("RequestTransaction")
+  extras        Json?               @db.JsonB()
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime?           @updatedAt()
+  deletedAt     DateTime?
+  createdBy     Int?
+  updatedBy     Int?
+
+  @@map("tbl_offramps")
+}
+
+model OfframpTransaction {
+  id             Int            @id @default(autoincrement())
+  uuid           String         @unique @default(uuid())
+  requestId      String         @unique
+  txHash         String
+  walletId       String?
+  customerKey    String?
+  chain          String?
+  token          String?
+  referenceId    String?
+  status         OfframpStatus  @default(PENDING)
+  extras         Json?          @db.JsonB()
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime?      @updatedAt()
+  deletedAt      DateTime?
+  createdBy      Int?
+  updatedBy      Int?
+  offrampRequest OfframpRequest @relation("RequestTransaction", fields: [requestId], references: [requestId])
+
+  @@map("tbl_offramp_transactions")
+}
+
+// endregion: @rahat/offramp
+
