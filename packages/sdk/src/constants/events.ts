@@ -366,3 +366,4 @@ export const queueOptions: RabbitMQModuleOptions['queues'] = [
     options: {},
   },
 ];
+
