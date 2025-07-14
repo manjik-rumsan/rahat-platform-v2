@@ -221,6 +221,7 @@ model AuthApp {
   @@map("tbl_auth_apps")
 }
 
+
 // ++++++++++++++++++ START: @rahat/beneficiaries +++++++++++++++++++++++++++
 
 model Beneficiary {
@@ -480,6 +481,7 @@ enum TransactionStatus {
 
 // ++++++++++++++++++ END: @rahat/transactions - Transactions ++++++++++++++++++++++
 
+
 // ++++++++++++++++++ START: @rahat/grievances - Grievances ++++++++++++++++++++
 
 enum GrievanceStatus {
@@ -700,3 +702,4 @@ model OfframpTransaction {
 }
 
 // endregion: @rahat/offramp
+
