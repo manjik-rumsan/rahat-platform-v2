@@ -11,14 +11,23 @@
   },
   "exports": {
     ".": "./src/index.ts",
+    "./aa/*": "./src/aa/*.ts",
     "./clients/*": "./src/clients/*.ts",
     "./constants/*": "./src/constants/*.ts",
+    "./enums/*": "./src/enums/*.ts",
+    "./project/*": "./src/project/*.ts",
     "./dtos/*": "./src/dtos/*.ts",
     "./types/*": "./src/types/*.ts",
-    "./utils/*": "./src/utils/*.ts"
+    "./utils/*": "./src/utils/*.ts",
+    "./beneficiary/*": "./src/beneficiary/*.ts",
+    "./vendor/*": "./src/vendor/*.ts"
   },
   "dependencies": {
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/microservices": "^10.3.3",
     "@rumsan/sdk": "^0.1.152",
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "viem": "^2.8.4",
+    "rxjs": "^7.8.1"
   }
 }
