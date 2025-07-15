@@ -1,0 +1,25 @@
+{
+    "name": "@workspace/wallet-storage-fs",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc",
+        "test": "jest --config jest.config.cjs"
+    },
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "dependencies": {
+        "@workspace/wallet": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.0",
+        "@types/node": "^20.0.0",
+        "@workspace/typescript-config": "workspace:*",
+        "jest": "^29.5.0",
+        "ts-jest": "^29.1.0",
+        "typescript": "latest"
+    }
+}
